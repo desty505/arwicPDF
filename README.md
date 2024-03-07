@@ -1,9 +1,11 @@
 # arwicPDF
+
 arwicPDF(article reference and word information from PDF)は、
-論文PDF内の参考文献の参照と名詞情報の取得を目的とした論文理解支援ツールである。
+論文 PDF 内の参考文献の参照と名詞情報の取得を目的とした論文理解支援ツールである。
 
 ## 各種バージョン(記載時点 2024.3.6)
-- Python==3.9
+
+- Python==3.10.11
 - pdfminer.six==20221105
 - PyMuPDF==1.22.5
 - pillow==9.5.0
@@ -15,69 +17,89 @@ arwicPDF(article reference and word information from PDF)は、
 - google-search-results==2.4.2
 
 ## 環境構築
+
 1. このリポジトリをクローン
-2. elementディレクトリ内のserp.pyでSerpAPIのAPIキーを設定する
-SerpAPIのURL
+2. element ディレクトリ内の serp.py で SerpAPI の API キーを設定する
+   SerpAPI の URL
+
 ```
 https://serpapi.com/dashboard
 ```
-3. elementディレクトリ内のhuman.jpでunidic_liteのパスを設定する
-    unidic_liteは事前ダウンロードしておく `pip install unidic-lite`
-    こんな感じで設定する　`tagger = MeCab.Tagger('-r nul -d C:/users/ユーザ名/appdata/local/programs/python/python311/lib/site-packages/unidic_lite/dicdir')`
-4. 自分の環境上で以下のプログラムを実行する(1回だけでいい)
+
+3. element ディレクトリ内の human.jp で unidic_lite のパスを設定する
+   unidic_lite は事前ダウンロードしておく `pip install unidic-lite`
+   こんな感じで設定する　`tagger = MeCab.Tagger('-r nul -d C:/users/ユーザ名/appdata/local/programs/python/python311/lib/site-packages/unidic_lite/dicdir')`
+4. 自分の環境上で以下のプログラムを実行する(1 回だけでいい)
+
 ```
 import nltk
 nltk.download('averaged_perceptron_tagger')
 ```
+
 5. 環境構築完了
 
+## arwicPDF の機能
 
-## arwicPDFの機能
-arwicPDFは、以下の2つの機能を持つ。
+arwicPDF は、以下の 2 つの機能を持つ。
+
 - **参考文献情報取得機能：**  
-  入力PDFから参考文献を抽出する。抽出した参考文献から1つを選択して、表示ボタンを押すだけでその参考文献を表示する機能。
+  入力 PDF から参考文献を抽出する。抽出した参考文献から 1 つを選択して、表示ボタンを押すだけでその参考文献を表示する機能。
 
 - **名詞情報取得機能：**  
-  入力論文PDFをウィンドウ上に画像として表示し、画像内の名詞をクリックすることで、クリックした名詞の情報を表示する機能。
+  入力論文 PDF をウィンドウ上に画像として表示し、画像内の名詞をクリックすることで、クリックした名詞の情報を表示する機能。
 
-## arwicPDF使用時の流れ
-arwicPDFを使用する際の流れを、以下に示す。
-1. app.pyを実行する。
-2. 実行して表示されたウィンドウで入力とするPDFファイルを選択する。
-3. 「PDFを開く」ボタンをクリックして、入力とするPDFファイルを開く。
-4. 3.の操作で表示されたウィンドウでarwicPDFの機能を使用する。
+## arwicPDF 使用時の流れ
+
+arwicPDF を使用する際の流れを、以下に示す。
+
+1. app.py を実行する。
+2. 実行して表示されたウィンドウで入力とする PDF ファイルを選択する。
+3. 「PDF を開く」ボタンをクリックして、入力とする PDF ファイルを開く。
+4. 3.の操作で表示されたウィンドウで arwicPDF の機能を使用する。
 
 ## 初期設定(というか注意点)
-arwicPDFを使用する前に、dataディレクトリ下にgoogle_scholar.jsonファイルが存在している必要がある。(空のファイルでいい)
 
-## arwicPDFの外観
-arwicPDFのユーザインタフェースは、以下に示す2つのウィンドウからなる。
+arwicPDF を使用する前に、data ディレクトリ下に google_scholar.json ファイルが存在している必要がある。(空のファイルでいい)
+
+## arwicPDF の外観
+
+arwicPDF のユーザインタフェースは、以下に示す 2 つのウィンドウからなる。
+
 - 文書入力ウィンドウ
 - 文書情報表示ウィンドウ
 
 下記に、各ウィンドウの外観について説明する。
+
 ### 文書入力ウィンドウ
+
 入力となるウィンドウを選択するウィンドウである。
-入力するPDFは以下の3つの方法で入力できる。
+入力する PDF は以下の 3 つの方法で入力できる。
+
 - ファイルパスを人手またはコピペで入力して選択する
 - 「ファイルを選ぶ」ボタンをクリックして、参照ダイアログを開いて選択する
 - ドラッグアンドドロップで選択する
 
 ### 文書情報表示ウィンドウ
-arwicPDFの機能を使用するためのウィンドウである。
+
+arwicPDF の機能を使用するためのウィンドウである。
 以下のそれぞれの機能の使い方を説明する。
+
 #### 参考文献情報機能
+
 文書情報表示ウィンドウ内に、ラジオボタンとして表示された参考文献リストから、
 参考文献を選択し、以下のそれぞれの情報を表示できる。
-- 参考文献のWebページ
-- 参考文献のPDFファイル
+
+- 参考文献の Web ページ
+- 参考文献の PDF ファイル
 - 参考文献の概要
 
-情報源として、GoogleScholarを利用している。
+情報源として、GoogleScholar を利用している。
+
 #### 名詞情報取得機能
-文書情報表示ウィンドウ内の中央に表示されたPDF画像内の任意の名刺をクリックすることで、
+
+文書情報表示ウィンドウ内の中央に表示された PDF 画像内の任意の名刺をクリックすることで、
 クリックした名詞の情報を、文書情報表示ウィンドウ内の左下にある名詞情報表示ラベルに表示する。
-情報源としてWikipediaを利用している。
+情報源として Wikipedia を利用している。
 
 <!-- ### 研究の引継ぎに関して
 本研究を引き継ぐことはお勧めしない！！！！！(特に院進する方)
